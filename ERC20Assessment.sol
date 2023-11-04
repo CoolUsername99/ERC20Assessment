@@ -8,20 +8,26 @@ contract ERC20Assessment is ERC20 {
     address public owner;
 
     constructor(string memory name, string memory symbol) ERC20(name, symbol) {
+        // sets contract owner
         owner = msg.sender;
+
+        // adds balance to contract owner
         _mint(msg.sender, 100 * 10**uint(decimals()));
     }
 
+    // override decimals from 18 to 3
     function decimals() public view virtual override returns (uint8) {
         return 3;
     }
 
     function mint(address account, uint256 amount) public {
+        // requires the transaction to be performed by owner account
         require(msg.sender == owner, "You are not the owner of the contract.");
         _mint(account, amount);
     }
 
     function burn(address account, uint256 amount) public {
+        // no restrictions, any users
         _burn(account, amount);
     }
 
